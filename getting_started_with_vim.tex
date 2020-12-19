@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\begin{document}
+\title{Getting started with vim}
+\author{Md Arif Shaikh}
+\maketitle
+\tableofcontents
+
+\section{Installing Plugins}
+\label{sec:installing-plugins}
+
+\section{Python in vim}
+\label{sec:python-in-vim}
+One of the most important task of my job is to write python code. That is why,
+any editor that I choose must be capable of being a good python editor. Bellow
+are the things that an editor should be able do provide:
+
+\begin{enumerate}
+    \item {\bfseries Autocompletion:} For autocompletion of python code one need
+        the \verb!vim-jedi! plugin. To bring up the auto completion one has to
+        use \verb!C-space!. Also the autocompletion automatically works after
+        dot.\\ 
+
+        \underline{\bfseries Launch mvim from the terminal:}\\
+        Thing to keep in mind is that the jedi-vim uses the
+        python installed in the system if the vim application is launched from
+        say the spotlight in Mac. In that case it will not use the conda
+        environment. Therefor it is best to launch it from the command line where you
+        are already in a conda env. In that way it will have access and will do
+        autocompletion for all the modules and packages installed in the conda env.\\
+
+    \item {\bfseries flake8:} flake8 highlights any deviation from pep8 style
+        guideline as well as error in the python code. This could be done in vim
+        in the following steps.
+    \begin{itemize}
+        \item First install flake8 using pip: \verb!pip install flake8!.
+        \item Install flake8 plugin in .vimrc: Plugin \verb!`nvie/vim-flake8'!
+        \item If vim cannot find flake8 then we need to provide the flake8
+            plugin the absolute path of the flake8 installation. For example in
+            the path could be obtained in terminal using \verb!which flake8!.
+            Now in the \verb!.vim! folder go the folder for \verb!vim-flake8! 
+            plugin and then to \verb!autoload! directory where you will find the 
+            \verb!flake8.vim! file. In that file we need to change the line
+            which calls the flake8 package in the following way:
+            \begin{verbatim}
+            call s:DeclareOption('flake8_cmd', '','"/absolute/path/to/flake8"')
+            \end{verbatim}  
+        \item Now that flake8 is currently working, the last thing we want is to 
+            run the flake8 command each time we save the python file. This is done
+            easily by putting the following line in the \verb!.vimrc!:\\
+            \verb!autocmd BufWritePost *.py call Flake8()!.
+        \item Often it is nice to have a marker in the file itself and also at
+            the begining of the line showing the error or the warning. This
+            could be accomplished using the following settings in the \verb!.vimrc!
+            \begin{verbatim}
+                let g:flake8_show_in_file = 1
+                let g:flake8_show_in_gutter = 1
+            \end{verbatim}
+    \end{itemize}
+\item {\bfseries Correct indentation:} Sometimes when inside a bracket a python
+    line becomes too long we have make a line break but this might mess the 
+    indentation. To rectify the indentation put the cursor on one of the
+    brackets and in normal mode and use \verb!=%!.
+
+\item {\bfseries Commentting and uncommenting:} It's always handy to know how to
+    comment out multiple line of code. In vim this can be done in the following
+    way.
+    \begin{enumerate}
+        \item start by selecting a block using \verb!Control+v! and using
+            \verb!j! or \verb!k! to go down or up.
+        \item After the selecting the lines use \verb!Shift+I! to insert the
+            desired commenting character. For example in python this would be
+            \verb!# !. 
+        \item Enter \verb!ESC! and it will do the job.
+        \item For uncommenting, select the lines using the first step and use
+            \verb!x! to uncommnet.
+    \end{enumerate}
+
+
+\end{enumerate}
+
+\section{Latex in vim}
+\label{sec:latex-in-vim}
+Apart from programming, an integral part of my academic life is to write
+documents for publications of my research and for that I have to write a lot of
+latex files. For the same reason, I have to figure out how to vim efficiently to
+write \verb!tex! files and compile. Luckily there exist a good Plugin named
+\verb!vimtex! which fulfill almost all of my requirements for writing latex files.
+
+Bellow are some commands useful when writing latex files:
+
+\begin{longtable}{ll}
+\toprule
+    Start compiling on save & \verb!\ll! or :VimtexCompile\\ \midrule
+    Show errors & \verb!\le! \\ \midrule
+    after writing \verb!\begin{env}! complete it & \verb!]]!\\ \midrule
+    set spell checking & \verb!:set spell!\\ \midrule
+    correct spell on point & \verb!z=!\\ \midrule
+\end{longtable}
+
+\noindent {\bfseries How to use \verb!\ll! in \verb!Normal! mode to view the line on
+cursor in the pdf file opened in Skim?:}
+This could be accomplished just by adding the following lines in the
+\verb!.vimrc! file.
+
+\begin{verbatim}
+let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+let g:vimtex_view_general_options_latexmk = '-r 1'   
+\end{verbatim}
+
+
+\section{Snippets in vim}
+\label{sec:snippets-in-vim}
+To make one's workflow one should use Snippets. In vim this nicely accomplished
+using \verb!UltiSnips!. To create and use snippets one should follow the steps
+described below.
+
+\begin{enumerate}
+    \item First install the plugin using in \verb!.vimrc!. 
+        \begin{verbatim}
+            Plugin 'SirVer/ultisnips'
+        \end{verbatim}
+    \item Next make a directory named \verb!UltiSnips! inside \verb!.vim! or
+        symlink it there. 
+    \item Now let's say we want to create snippets for \verb!.tex! files. We
+        create a file named \verb!tex.snippets!. 
+    \item We are now ready to create snippets for latex insdie that file.
+        template of snippets is the following
+        \begin{verbatim}
+            snippet eq "equation" b
+            \begin{equation}
+	        \label{eq:$1}
+	        $0
+            \end{equation}
+            endsnippet
+        \end{verbatim}
+\end{enumerate}
+
+\section{Diectories in vim}%
+\label{sec:diectories_in_vim}
+Simply use \verb!:e! to explore file systems. Once in side the nerd tree view,
+it's easy to see all the commands using the help me by pressing \verb!?!. Here
+are few of the Shortcuts one needs
+
+\begin{tabular}{ll}
+    \toprule
+    Key & Action \\ \midrule
+    \verb!:u! & up a directory\\ \midrule
+    \verb!:C-j! & move to next child \\ \midrule
+    \verb!:C-k! & move to previous child\\ \midrule
+    \verb!m! & open the menu for adding/deleting sud directories.\\ \bottomrule
+\end{tabular}
+
+
+\section{Shortcuts}
+\label{sec:shortcuts}
+
+\begin{longtable}{ll}
+\toprule
+{\bfseries Buffers} & \\ \midrule
+Open a new buffer & :new \\midrule
+Open a terminal inside vim & :term \\ \midrule
+Switch between windows & C-w C-w \\ \midrule
+close/unload/delete the current buffer & :bd \\ \midrule
+{\bfseries Navigation} & \\ \midrule
+Beginning of the buffer & 1G \\ \midrule
+End of buffer & G \\ \midrule
+Go to nth line & nG\\ \midrule
+Beginning of line & 0\\ \midrule
+End of line & \$\\ \midrule
+Open new line after cursor & o \\ \midrule
+Open new line before cursor & O \\ \midrule
+Delete the current line & dd \\  \midrule
+Move down by one screen & \verb!C-f!\\ \midrule
+Move up by one screen & \verb!C-b!\\ \midrule
+In the given screen move to top & \verb!H!\\ \midrule
+In the given screen move to midlle & \verb!M!\\ \midrule
+In the given screen move to the last line & \verb!L!\\ \midrule
+{\bfseries Copy \& paste} & \\ \midrule
+Copy the current line & \verb!yy!\\ \midrule
+Paste the copied line below the cursor & \verb!p!\\ \midrule
+Paste the copied line above the cursor & \verb!P!\\ \midrule
+{\bfseries Visual marking} & \\ \midrule
+start marking & v \\ \midrule
+select the region & using arrows\\ \midrule
+cut the marked region & d \\ \midrule
+copy the marked region & y \\ \midrule
+paste the copied/cut text & p \\ \midrule
+                          & \\ \bottomrule
+\end{longtable}
+\end{document}
