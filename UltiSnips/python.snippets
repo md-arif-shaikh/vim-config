@@ -1,0 +1,22 @@
+snippet import "import" b
+import ${1:package} as ${2:module}
+endsnippet
+
+snippet from "from" b
+from ${1:package} import ${2:module}
+endsnippet
+
+snippet def "function" b
+def ${1:function}:
+	$0
+endsnippet
+
+snippet for "for" b
+for ${1:idx} in ${2:array/list}:
+	$0
+endsnippet
+
+snippet	enum "enumerate" b
+for ${1:idx}, (${2:tuple}) in enumerate(${3:array/list}):
+	$0
+endsnippet
