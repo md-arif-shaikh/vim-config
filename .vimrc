@@ -6,7 +6,7 @@ Plugin 'lervag/vimtex'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'python-mode/python-mode'
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'vim-python/python-syntax'
 Plugin 'vim-airline/vim-airline'
@@ -18,11 +18,11 @@ Plugin 'morhetz/gruvbox'
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'joshdick/onedark.vim'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'tpope/vim-surround'
 call vundle#end()            " required
 
 set nocompatible              " be iMproved, required
-filetype off                  " required
-
 set tabstop=4 
 set shiftwidth=4
 set expandtab
@@ -32,8 +32,9 @@ set colorcolumn=+1
 set spelllang=en_us
 set nojoinspaces
 set backspace=indent,eol,start
+set encoding=UTF-8
 set smartindent
-highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace guibg=red
 match ExtraWhitespace /\s\+$/
 
 filetype plugin indent on
@@ -76,7 +77,7 @@ let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSuppor
 let g:vimtex_view_general_options = '-r @line @pdf @tex'
 let g:vimtex_view_general_options_latexmk = '-r 1'
 :set list lcs=tab:\|\
-set guifont=Fira\ Mono:h12
+set guifont=SauceCodePro\ Nerd\ Font:h12
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 let NERDTreeShowHidden=1

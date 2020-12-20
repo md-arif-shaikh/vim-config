@@ -134,11 +134,27 @@ described below.
         \begin{verbatim}
             snippet eq "equation" b
             \begin{equation}
-	        \label{eq:$1}
-	        $0
+            \label{eq:$1}
+            $0
             \end{equation}
             endsnippet
         \end{verbatim}
+    \item Another interesting thing about UltiSnips is that one can use python
+        code to enhance the ability of the Snippets. For example, let's say we
+        want to create a snippet for \verb!section! in latex. We want to be able
+        to automatically assign a section label with same words as in section
+        name but the spaces replaced by underscore. This could be done in the
+        following way.
+        \begin{verbatim}
+            snippet sec "section" b
+            \section{${1:section name}}
+            \label{`!p snip.rv = t[1].replace(" ", "_")`}
+        \end{verbatim}
+        This is what is happening in the above snippet. `!p` is where you
+        put your python script and \verb!snip.rv !is the return value of the
+        script that will be inserted in the document. \verb!t[1]! is the value 
+        in the first tabstop.
+        
 \end{enumerate}
 
 \section{Diectories in vim}%
@@ -146,6 +162,13 @@ described below.
 Simply use \verb!:e! to explore file systems. Once in side the nerd tree view,
 it's easy to see all the commands using the help me by pressing \verb!?!. Here
 are few of the Shortcuts one needs
+
+One can use the plugin \verb!ryanoasis/vim-devicons! to display filetype icon in
+nerdtree and also in the statusline. For this to work one has to install
+compatible font, e.g., from \href{https://www.nerdfonts.com/}{https://www.nerdfonts.com/}
+. Also select that font in the iterm settings. For gui vim use the following in
+vimrc \verb!set guifont=SauceCodePro\ Nerd\ Font:h12!
+.
 
 \begin{tabular}{ll}
     \toprule
@@ -156,6 +179,19 @@ are few of the Shortcuts one needs
     \verb!m! & open the menu for adding/deleting sud directories.\\ \bottomrule
 \end{tabular}
 
+\section{surrounding in vim}%
+\label{sec:surrounding_in_vim}
+
+Use the package \verb!https://github.com/tpope/vim-surround!. To visually select
+a region and surrong by any brackets or any character do the following:
+
+\begin{enumerate}
+    \item First go to Visual mode using \verb!v!
+    \item Then use Navigation to select the region.
+    \item Press \verb!S! to begin surrounding.
+    \item Enter the character for surrounding, e.g., \verb!(! to surround with
+        the first bracket \verb!()!.
+\end{enumerate}
 
 \section{Shortcuts}
 \label{sec:shortcuts}
